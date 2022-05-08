@@ -37,7 +37,8 @@
 
         //register service worker
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./serviceWorker.js');
+            navigator.serviceWorker.register('/PWA_A03/serviceWorker.js',
+                { scope: '/PWA_A03' });
 
         }
 

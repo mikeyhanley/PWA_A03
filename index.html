@@ -61,7 +61,8 @@
 
         //register service worker
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./serviceWorker.js');
+            navigator.serviceWorker.register('/PWA_A03/serviceWorker.js',
+                { scope: '/PWA_A03' });
 
         }
         //get array of flickr pics from local storage and add to page
