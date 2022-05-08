@@ -1,0 +1,243 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet">
+    <title>PWA A03</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="manifest" href="PWAa03.webmanifest">
+    <link rel="apple-touch-icon" sizes="32x32" href="PWA32.png">
+    <link rel="apple-touch-icon" sizes="64x64" href="PWA64.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="PWA128.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="PWA256.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="PWA512.png">
+
+
+
+</head>
+<script>
+    //fucntion for handelling show and hide of search terms in mobile view
+    var searchesShown = false
+    function showSearches() {
+        if (searchesShown == false) {
+
+            document.getElementById('searches').style.display = 'flex'
+            document.getElementById('main').style.gridTemplateRows = '35% 20% auto 8%'
+            searchesShown = true
+        }
+        else {
+            document.getElementById('searches').style.display = 'none'
+            document.getElementById('main').style.gridTemplateRows = '   10% 20% auto 8% '
+
+
+            searchesShown = false
+        }
+    }
+</script>
+
+<script>
+
+    //flickr search terms
+    var searchTerms = [
+        "Ferrari F1-75",
+        "Mclaren MCL36",
+        "Redbull RB18",
+    ];
+
+    //on load event listener
+    window.addEventListener('load', function () {
+
+        //add searh terms to page
+        const searches = document.getElementById('searches')
+        var content = '';
+        for (var i = 0; i < searchTerms.length; i++) {
+            content += "<div class='searchItem' onclick='loadPics(&#34" + searchTerms[i] + "&#34)'>" + searchTerms[i] + "</div>"
+        }
+        searches.innerHTML = content
+
+
+        //register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./serviceWorker.js');
+
+        }
+        //get array of flickr pics from local storage and add to page
+        savedPicArrayJson = localStorage.getItem("PicArray");
+        if (savedPicArrayJson != null) {
+
+            savedPicArray = JSON.parse(savedPicArrayJson)
+
+            var localFlickrContent = '';
+            var contentDiv = document.getElementById('contentContainer')
+            savedPicArray.forEach(function (pic) {
+                getImage(pic.path, pic.ID, pic.title)
+
+                localFlickrContent += "<div class='flickrImgDiv' id='DIV" + pic.ID + "'>"
+                localFlickrContent += '<img alt="pic"  id="LOADER' + pic.ID + '" class="loader" src="./icons/loader.gif""></img>'
+                localFlickrContent += "</div>"
+            });
+            contentDiv.innerHTML = localFlickrContent
+        }
+    })
+
+
+
+
+    //array for promisses for loading pictures
+    var promises = []
+
+    //function to get pictures from flick and display them 
+    async function loadPics(searchTerm) {
+
+        //remove all title cards from page as new ones to be added
+        const titleCards = document.querySelectorAll('.titleCard');
+
+        titleCards.forEach(titleCard => {
+            titleCard.remove();
+        });
+
+        //on load make links unclickable and grey
+        const searchTerms = document.querySelectorAll('.searchItem');
+
+        searchTerms.forEach(searchTerm => {
+
+            searchTerm.style.color = 'Gainsboro';
+            searchTerm.style.pointerEvents = 'none'
+        });
+
+        //add loading text
+        const contentDiv = document.getElementById('contentContainer')
+        contentDiv.innerHTML = "<h1>Flickr Loading...</h1>"
+
+        //fetch picture from flickr based on search term param
+        var respose = await fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + 'e33b37fd606f7ebd78815ffb3b919be3' + '&tags=' + searchTerm + '&per_page=10&page=1&format=json&nojsoncallback=1')
+        jsonPics = await respose.json()
+        let picArray = jsonPics.photos.photo.map((pic) => {
+            var srcPath = 'https://farm' + pic.farm + '.staticflickr.com/' + pic.server + '/' + pic.id + '_' + pic.secret + '.jpg';
+            var pathObj = {
+                path: srcPath,
+                ID: pic.id,
+                title: pic.title
+            }
+            return (pathObj)
+        })
+        //set local storage eith the array of pictures
+        localStorage.setItem("PicArray", JSON.stringify(picArray));
+
+        //set up divs and call gerImage functions for each pic
+        var FlickrContent = '';
+        for (var i = 0; i < picArray.length; i++) {
+            imgP = getImage(picArray[i].path, picArray[i].ID, picArray[i].title)
+            promises.push(imgP)
+
+            FlickrContent += "<div class='flickrImgDiv' id='DIV" + picArray[i].ID + "'>"
+            FlickrContent += '<img alt="pic"  id="LOADER' + picArray[i].ID + '" class="loader" src="./icons/loader.gif""></img>'
+            FlickrContent += "</div>"
+        }
+        contentDiv.innerHTML = FlickrContent
+
+        //when all pics loaded set links clickable and black
+        Promise.all(promises).then(function () {
+            const searchTerms = document.querySelectorAll('.searchItem');
+            searchTerms.forEach(searchTerm => {
+                searchTerm.style.color = 'black';
+                searchTerm.style.pointerEvents = 'auto'
+
+
+            });
+
+        })
+    }
+    //create promises for images
+    function getImage(url, id, title) {
+        var imgP = new Promise(
+            function (resolve, reject) {
+                var img = new Image();
+                img.onload = function () {
+                    resolve(url);
+                }
+                //on error set imag as error pic
+                img.onerror = function () {
+                    console.log('error loading image')
+                    url = './icons/error.png'
+                    resolve(url);
+                }
+                img.src = url;
+
+            }
+        )
+        //when downladed run showimage()
+        imgP.then(function (successurl) { showImage(successurl); })
+
+        // set images
+        function showImage(img) {
+            var picDiv = document.getElementById('DIV' + id)
+            var overlay = document.getElementById('overlay')
+            var overLayID = 'OVERLAY' + id
+            picDiv.innerHTML = ' <img alt="pic"  id ="' + id + ' class="flickrImg" src="' + url + '"   onclick="showTitle(&#34' + overLayID + '&#34)"  ></img>'
+            overlay.innerHTML += '<div id="' + overLayID + '" class="titleCard" onclick="hideOverlay(&#34' + overLayID + '&#34)"><p>' + title + '</p></div>'
+        }
+        return imgP
+
+    }
+    //function to show title overlay
+    function showTitle(elementID) {
+        document.getElementById(elementID).style.display = 'flex'
+        document.getElementById('main').style.overflow = 'hidden'
+
+    }
+    //function to hide title overlay
+
+    function hideOverlay(elementID) {
+        document.getElementById(elementID).style.display = 'none'
+        document.getElementById('main').style.overflow = 'scroll'
+        document.getElementById('main').style.scrollbarWidth = 'none';
+    }
+
+
+</script>
+
+<body>
+
+    <div id="overlay">
+        <div id="main">
+            <div id="searchesContainer">
+                <button id='showSearches' onclick="showSearches()">Searches</button>
+
+                <h2>Searches</h2>
+
+                <div id="searches">
+
+
+
+                </div>
+            </div>
+            <div id="titleSearch">
+                <div id="titleContainer">
+                    <h1>Search Flickr</h1>
+                </div>
+                <div id="searchContainer">
+                    <div id="cache">
+                        <button>Delete Flickr Chache</button>
+                    </div>
+                </div>
+            </div>
+            <div id="contentContainer">
+
+            </div>
+            <div id="footerContainer">
+                <div id="footerLinks">
+                    <a href="./index.html">Flickr Serach</a>
+                    <a href="./index2.html">Script Search</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

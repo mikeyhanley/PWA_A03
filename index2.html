@@ -1,0 +1,134 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet">
+    <title>PWA A03</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="manifest" href="PWAa03.webmanifest">
+
+
+</head>
+<script>
+    //fucntion for handelling show and hide of search terms in mobile view
+    var searchesShown = false
+    function showSearches() {
+        if (searchesShown == false) {
+
+            document.getElementById('searches').style.display = 'flex'
+            document.getElementById('main').style.gridTemplateRows = '35% 20% auto 8%'
+            searchesShown = true
+        }
+        else {
+            document.getElementById('searches').style.display = 'none'
+            document.getElementById('main').style.gridTemplateRows = '   10% 20% auto 8% '
+
+
+            searchesShown = false
+        }
+    }
+</script>
+<script>
+    window.addEventListener('load', function () {
+
+
+        //register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./serviceWorker.js');
+
+        }
+
+
+
+
+    })
+
+    function searchFilms() {
+        let searchedFilmsDiv = document.getElementById('searchIndex')
+        let totalFilmsDiv = document.getElementById('totalNumFilms')
+        let contentContainer = document.getElementById('movieScripts')
+        contentContainer.innerHTML = ''
+
+        //add web worker
+        if (window.Worker) {
+            var ww = new Worker("myWorker.js");
+        }
+        //get search text
+        let search = document.getElementById('searchBar').value
+        //dont use empty searches as searches
+        if (search != '' && search != ' ') {
+            //send worker search text
+            ww.postMessage(search);
+            //recive message from worker
+            ww.onmessage = function (e) {
+                //matching films
+                if (e.data.filmScriptObjFormatted != null) {
+                    //add div to page for movie script 
+                    contentContainer.innerHTML += '<div class="filmCard" onclick="window.open(&#34' + e.data.filmScriptObjFormatted.URL + '&#34)">' + (e.data.filmScriptObjFormatted.title) + '</div>'
+                }
+                //set number of films searched through div
+                searchedFilmsDiv.innerHTML = e.data.checkedFilms
+                totalFilmsDiv.innerHTML = e.data.totalFilms
+            }
+        }
+    }
+</script>
+<script>
+
+
+
+
+</script>
+
+
+<body>
+
+    <div id="main">
+        <div id="searchesContainer">
+            <button id='showSearches' onclick="showSearches()">Searches</button>
+
+
+            <div id="searches">
+
+                <h2 id="useSearch">Use the search box to find film scripts</h2>
+
+
+            </div>
+        </div>
+        <div id="titleSearch">
+            <div id="titleContainer">
+                <h1>Find Scripts</h1>
+            </div>
+            <div id="searchContainer">
+                <div id="search">
+                    <input type="text" id="searchBar" onchange="searchFilms()">
+                    <img src="icons\white.png" alt="magGlassImg">
+                </div>
+            </div>
+        </div>
+        <div id="contentContainer">
+            <div id='counter'>
+                <div id="searchIndex">0</div>
+                /
+                <div id="totalNumFilms">0</div>
+            </div>
+            <div id="movieScripts">
+
+
+            </div>
+        </div>
+        <div id="footerContainer">
+            <div id="footerLinks">
+                <a href="./index.html">Flickr Serach</a>
+                <a href="./index2.html">Script Search</a>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
