@@ -29,7 +29,8 @@
             "type": "image/png"
         }
     ],
-    "start_url": "/index.html",
+    "scope": "/PWA_A03/",
+    "start_url": "/PWA_A03/",
     "display": "fullscreen",
     "theme_color": "#B12A34",
     "background_color": "#B12A34"
