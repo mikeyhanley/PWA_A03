@@ -4,11 +4,12 @@
 const cacheName = 'PWAa03';
 
 const appShellFiles = [
+    '/PWA_A03/',
     '/PWA_A03/index.html',
     '/PWA_A03/index2.html',
     '/PWA_A03/myWorker.js',
     '/PWA_A03/style.css',
-    '/PWA_A03icons/white.png',
+    '/PWA_A03/icons/white.png',
     '/PWA_A03/favicon.png',
 
 ];
