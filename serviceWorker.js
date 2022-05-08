@@ -31,7 +31,7 @@ self.addEventListener('activate', e => {
 
 
 self.addEventListener('fetch', (e) => {
-    /* e.respondWith((async () => {
+    e.respondWith((async () => {
         const r = await caches.match(e.request);
         console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
         if (r) { return r; }
@@ -47,5 +47,5 @@ self.addEventListener('fetch', (e) => {
 
 
     }));
-    */
+
 });
