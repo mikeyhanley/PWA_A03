@@ -33,7 +33,7 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', (e) => {
     console.log(e.request.url)
-    if (e.request.url.includes('movieObj.js')) {
+    if (e.request.url.includes('movieObj.js' || 'myWorker.js')) {
         e.respondWith((async () => {
 
             console.log(hit)
