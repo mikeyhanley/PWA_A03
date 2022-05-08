@@ -32,7 +32,8 @@ self.addEventListener('activate', e => {
 
 
 self.addEventListener('fetch', (e) => {
-    console.log(e)
+    console.log(e.request)
+
     e.respondWith((async () => {
         const r = await caches.match(e.request);
         console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
