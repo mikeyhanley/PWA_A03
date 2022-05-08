@@ -44,6 +44,7 @@ self.addEventListener('fetch', (e) => {
             return response;
 
         } catch (error) {
+            console.log(error)
 
 
         }
