@@ -45,6 +45,10 @@ self.addEventListener('fetch', (e) => {
             }
             catch {
                 console.log('catch')
+                return new Response(
+                    "showImages({offline: true})",
+                    { headers: { "Content-Type": "text/javascript" } }
+                );
 
             }
 
