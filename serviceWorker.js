@@ -55,7 +55,7 @@ self.addEventListener('fetch', (e) => {
 
 
     }
-    else if (reqURL.includes('movieObj.js')) {
+    else if (reqURL == 'https://mikeyhanley.github.io/PWA_A03/movieObj.js') {
         console.log('contains movieObj.js')
         caches.delete(reqURL)
 
@@ -101,7 +101,8 @@ self.addEventListener('fetch', (e) => {
 onmessage = function (e) {
     searchTerm = e.data;
     //  try {
-    importScripts("movieObj.js");
+    res = importScripts("movieObj.js");
+    console.log(res)
 
     // } catch (error) {
     //   processFilms({ offline: true })
