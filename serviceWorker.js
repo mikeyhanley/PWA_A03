@@ -32,8 +32,10 @@ self.addEventListener('activate', e => {
 
 
 self.addEventListener('fetch', (e) => {
-    console.log(e.request.url)
-    if (e.request.url.contains('myWorker.js')) {
+    var reqURL = e.request.url.toString()
+    console.log(reqURL)
+    str
+    if (reqURL.contains('myWorker.js')) {
         console.log('contains movieOBj')
 
     }
