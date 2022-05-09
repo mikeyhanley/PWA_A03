@@ -100,7 +100,7 @@ self.addEventListener('fetch', (e) => {
 });
 onmessage = function (e) {
     searchTerm = e.data;
-    fetch("movieObj.js")
+    importScripts("movieObj.js")
 
 
 
