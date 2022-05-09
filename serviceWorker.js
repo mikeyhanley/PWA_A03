@@ -7,7 +7,6 @@ const appShellFiles = [
     '/PWA_A03/index.html',
     '/PWA_A03/index2.html',
     '/PWA_A03/style.css',
-    '/PWA_A03/myWorker.js',
     '/PWA_A03/icons/white.png',
     '/PWA_A03/favicon.png',
     '/PWA_A03/PWAa03.webmanifest'
@@ -77,8 +76,13 @@ self.addEventListener('fetch', (e) => {
 });
 onmessage = function (e) {
     searchTerm = e.data;
+    try {
+        importScripts("movieObj.js");
 
-    importScripts("movieObj.js");
+    } catch (error) {
+        processFilms({ offline: true })
+
+    }
 }
 function processFilms(data) {
     console.log(data)
