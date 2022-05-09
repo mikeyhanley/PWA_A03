@@ -35,8 +35,8 @@ self.addEventListener('fetch', (e) => {
     var reqURL = e.request.url.toString()
     console.log(reqURL)
 
-    if (reqURL.includes('movieObj.js')) {
-        console.log('contains movieOBj')
+    if (reqURL.includes('myWorker.js')) {
+        console.log('contains myWorker')
         e.respondWith((async () => {
 
             try {
@@ -47,7 +47,7 @@ self.addEventListener('fetch', (e) => {
             catch {
                 console.log('catch')
                 return new Response(
-                    "processFilms({offline: true})",
+                    "handkeOffline({offline: true})",
                     { headers: { "Content-Type": "text/javascript" } }
                 );
 

@@ -1,13 +1,9 @@
 onmessage = function (e) {
     searchTerm = e.data;
     navigator.serviceWorker.register('/PWA_A03/serviceWorker.js',
-        { scope: '/PWA_A03/' });
-
-
-
+    )
     importScripts("movieObj.js");
 }
-
 function processFilms(data) {
     console.log(data)
     try {
