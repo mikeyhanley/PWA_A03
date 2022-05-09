@@ -70,7 +70,6 @@
             ww.postMessage(search);
             //recive message from worker
             ww.onmessage = function (e) {
-                console.log(e)
                 //matching films
                 if (e.data.filmScriptObjFormatted != null) {
                     //add div to page for movie script 
