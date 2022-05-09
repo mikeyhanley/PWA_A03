@@ -74,6 +74,7 @@
             ww.postMessage(search);
             //recive message from worker
             ww.onmessage = function (e) {
+                console.log(e)
 
                 //check if offline
                 if (e.data.offline == true) {

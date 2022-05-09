@@ -73,8 +73,8 @@ self.addEventListener('fetch', (e) => {
             catch {
                 console.log('catch')
                 return new Response(
-                    "{offline: true}",
-                    { headers: { "Content-Type": "application/json" } }
+                    "processFilms({ offline: true })",
+                    { headers: { "Content-Type": "text/javascript" } }
                 );
 
             }
