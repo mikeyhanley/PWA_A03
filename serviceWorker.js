@@ -10,6 +10,7 @@ const appShellFiles = [
     '/PWA_A03/myWorker.js',
     '/PWA_A03/icons/white.png',
     '/PWA_A03/favicon.png',
+    '/PWA_A03/PWAa03.webmanifest'
 
 ];
 
@@ -20,7 +21,6 @@ self.addEventListener('install', (e) => {
     e.waitUntil((async () => {
         const cache = await caches.open(cacheName);
         // console.log('[Service Worker] Caching all: app shell');
-        console.log(cache);
         await cache.addAll(appShellFiles);
     })());
 });
