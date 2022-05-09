@@ -117,42 +117,47 @@
         var respose = await fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + 'e33b37fd606f7ebd78815ffb3b919be3' + '&tags=' + searchTerm + '&per_page=10&page=1&format=json&nojsoncallback=1')
         jsonRes = await respose.json()
         console.log(jsonRes)
+        if (jsonRes.offline == 'true') {
+            contentDiv.innerHTML = '<h2>Cant connect to flickr<h2>'
 
-        let picArray = jsonRes.photos.photo.map((pic) => {
-            var srcPath = 'https://farm' + pic.farm + '.staticflickr.com/' + pic.server + '/' + pic.id + '_' + pic.secret + '.jpg';
-            var pathObj = {
-                path: srcPath,
-                ID: pic.id,
-                title: pic.title
-            }
-            return (pathObj)
-        })
-        //set local storage eith the array of pictures
-        localStorage.setItem("PicArray", JSON.stringify(picArray));
-
-        //set up divs and call gerImage functions for each pic
-        var FlickrContent = '';
-        for (var i = 0; i < picArray.length; i++) {
-            imgP = getImage(picArray[i].path, picArray[i].ID, picArray[i].title)
-            promises.push(imgP)
-
-            FlickrContent += "<div class='flickrImgDiv' id='DIV" + picArray[i].ID + "'>"
-            FlickrContent += '<img alt="pic"  id="LOADER' + picArray[i].ID + '" class="loader" src="./icons/loader.gif""></img>'
-            FlickrContent += "</div>"
         }
-        contentDiv.innerHTML = FlickrContent
+        else {
+            let picArray = jsonRes.photos.photo.map((pic) => {
+                var srcPath = 'https://farm' + pic.farm + '.staticflickr.com/' + pic.server + '/' + pic.id + '_' + pic.secret + '.jpg';
+                var pathObj = {
+                    path: srcPath,
+                    ID: pic.id,
+                    title: pic.title
+                }
+                return (pathObj)
+            })
+            //set local storage eith the array of pictures
+            localStorage.setItem("PicArray", JSON.stringify(picArray));
 
-        //when all pics loaded set links clickable and black
-        Promise.all(promises).then(function () {
-            const searchTerms = document.querySelectorAll('.searchItem');
-            searchTerms.forEach(searchTerm => {
-                searchTerm.style.color = 'black';
-                searchTerm.style.pointerEvents = 'auto'
+            //set up divs and call gerImage functions for each pic
+            var FlickrContent = '';
+            for (var i = 0; i < picArray.length; i++) {
+                imgP = getImage(picArray[i].path, picArray[i].ID, picArray[i].title)
+                promises.push(imgP)
+
+                FlickrContent += "<div class='flickrImgDiv' id='DIV" + picArray[i].ID + "'>"
+                FlickrContent += '<img alt="pic"  id="LOADER' + picArray[i].ID + '" class="loader" src="./icons/loader.gif""></img>'
+                FlickrContent += "</div>"
+            }
+            contentDiv.innerHTML = FlickrContent
+
+            //when all pics loaded set links clickable and black
+            Promise.all(promises).then(function () {
+                const searchTerms = document.querySelectorAll('.searchItem');
+                searchTerms.forEach(searchTerm => {
+                    searchTerm.style.color = 'black';
+                    searchTerm.style.pointerEvents = 'auto'
 
 
-            });
+                });
 
-        })
+            })
+        }
     }
     //create promises for images
     function getImage(url, id, title) {
