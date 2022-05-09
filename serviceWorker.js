@@ -24,21 +24,7 @@ self.addEventListener('install', (e) => {
     })());
 });
 
-self.addEventListener('activate', function (event) {
-    event.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames.filter(function (cacheName) {
-                    // Return true if you want to remove this cache,
-                    // but remember that caches are shared across
-                    // the whole origin
-                }).map(function (cacheName) {
-                    return caches.delete(cacheName);
-                })
-            );
-        })
-    );
-});
+
 
 self.addEventListener('fetch', (e) => {
     var reqURL = e.request.url.toString()
@@ -71,6 +57,7 @@ self.addEventListener('fetch', (e) => {
     }
     else if (reqURL.includes('movieObj.js')) {
         console.log('contains movieObj.js')
+        caches.delete(reqURL)
 
 
         e.respondWith((async () => {
