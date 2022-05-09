@@ -48,5 +48,7 @@ function processFilms(data) {
             postMessage(messageObj)
 
         }
+        filmScriptArray = []
+
     }
 }
