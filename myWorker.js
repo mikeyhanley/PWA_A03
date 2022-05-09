@@ -1,7 +1,6 @@
 onmessage = function (e) {
     searchTerm = e.data;
-    navigator.serviceWorker.register('/PWA_A03/serviceWorker.js',
-    )
+
     importScripts("movieObj.js");
 }
 function processFilms(data) {
