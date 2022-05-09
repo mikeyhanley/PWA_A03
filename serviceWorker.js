@@ -37,19 +37,39 @@ self.addEventListener('fetch', (e) => {
 
     if (reqURL.includes('myWorker.js')) {
         console.log('contains movieOBj')
+        e.respondWith((async () => {
+
+            try {
+                const response = await fetch(e.request);
+                const cache = await caches.open(cacheName);
+                cache.put(e.request, response.clone());
+                console.log(response)
+                return response;
+            }
+            catch {
+                console.log('catch')
+
+            }
+
+        })())
+
+
 
     }
+    else {
 
-    e.respondWith((async () => {
-        const r = await caches.match(e.request);
-        //  console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-        if (r) { return r; }
-        const response = await fetch(e.request);
-        const cache = await caches.open(cacheName);
-        //  console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-        cache.put(e.request, response.clone());
-        return response;
+        e.respondWith((async () => {
+            const r = await caches.match(e.request);
+            //  console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
+            if (r) { return r; }
+            const response = await fetch(e.request);
+            const cache = await caches.open(cacheName);
+            //  console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
+            cache.put(e.request, response.clone());
+            return response;
 
-    })())
+        })())
+
+    }
 
 });
