@@ -58,7 +58,7 @@ self.addEventListener('fetch', (e) => {
     }
     else if (reqURL == 'https://mikeyhanley.github.io/PWA_A03/movieObj.js') {
         console.log('contains movieObj.js')
-        caches.delete('movieObj.js')
+        console.log(caches.delete('movieObj.js'))
 
 
         e.respondWith((async () => {
