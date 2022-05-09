@@ -79,14 +79,16 @@
                 if (e.data.offline == true) {
                     alert('offline')
                 }
-                //matching films
-                if (e.data.filmScriptObjFormatted != null) {
-                    //add div to page for movie script 
-                    contentContainer.innerHTML += '<div class="filmCard" onclick="window.open(&#34' + e.data.filmScriptObjFormatted.URL + '&#34)">' + (e.data.filmScriptObjFormatted.title) + '</div>'
+                else {
+                    //matching films
+                    if (e.data.filmScriptObjFormatted != null) {
+                        //add div to page for movie script 
+                        contentContainer.innerHTML += '<div class="filmCard" onclick="window.open(&#34' + e.data.filmScriptObjFormatted.URL + '&#34)">' + (e.data.filmScriptObjFormatted.title) + '</div>'
+                    }
+                    //set number of films searched through div
+                    searchedFilmsDiv.innerHTML = e.data.checkedFilms
+                    totalFilmsDiv.innerHTML = e.data.totalFilms
                 }
-                //set number of films searched through div
-                searchedFilmsDiv.innerHTML = e.data.checkedFilms
-                totalFilmsDiv.innerHTML = e.data.totalFilms
             }
         }
     }

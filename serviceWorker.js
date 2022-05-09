@@ -34,6 +34,7 @@ self.addEventListener('fetch', (e) => {
     var reqURL = e.request.url.toString()
     console.log(reqURL)
     if (reqURL.includes('api.flickr')) {
+        console.log('api.flickr')
 
 
         e.respondWith((async () => {
@@ -58,28 +59,30 @@ self.addEventListener('fetch', (e) => {
 
 
     }
-    if (reqURL.includes('myWorker.js')) {
-        console.log('contains myWorker')
-        /*  e.respondWith((async () => {
-  
-              try {
-                  const response = await fetch(e.request);
-                  console.log(response)
-                  return response;
-              }
-              catch {
-                  console.log('catch')
-                  return new Response(
-                      "handkeOffline({offline: true})",
-                      { headers: { "Content-Type": "text/javascript" } }
-                  );
-  
-              }
-  
-          })())
-  
-  
-  */
+    if (reqURL.includes('movieObj.js')) {
+        console.log('contains movieObj.js')
+
+
+        e.respondWith((async () => {
+
+            try {
+                const response = await fetch(e.request);
+                console.log(response)
+                return response;
+            }
+            catch {
+                console.log('catch')
+                return new Response(
+                    "{offline: true}",
+                    { headers: { "Content-Type": "application/json" } }
+                );
+
+            }
+
+        })())
+
+
+
     }
     else {
 
@@ -100,13 +103,13 @@ self.addEventListener('fetch', (e) => {
 });
 onmessage = function (e) {
     searchTerm = e.data;
-    try {
-        importScripts("movieObj.js");
+    //  try {
+    importScripts("movieObj.js");
 
-    } catch (error) {
-        processFilms({ offline: true })
+    // } catch (error) {
+    //   processFilms({ offline: true })
 
-    }
+    // }
 }
 function processFilms(data) {
     console.log(data)
