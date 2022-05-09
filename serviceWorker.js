@@ -56,7 +56,7 @@ self.addEventListener('fetch', (e) => {
 
 
     }
-    else if (reqURL == 'https://app.staticsave.com/movieobj/movieobj.js') {
+    else if (reqURL == 'https://mikeyhanley.github.io/PWA_A03/movieObj.js') {
         console.log('contains movieObj.js')
         caches.delete('movieObj.js')
 
@@ -101,7 +101,7 @@ self.addEventListener('fetch', (e) => {
 });
 onmessage = function (e) {
     searchTerm = e.data;
-    importScripts("https://app.staticsave.com/movieobj/movieobj.js")
+    importScripts("movieObj.js")
 
 
 
