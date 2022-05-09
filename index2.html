@@ -62,6 +62,10 @@
         if (window.Worker) {
             var ww = new Worker("serviceWorker.js");
         }
+
+        //check if offline
+
+
         //get search text
         let search = document.getElementById('searchBar').value
         //dont use empty searches as searches
@@ -70,6 +74,11 @@
             ww.postMessage(search);
             //recive message from worker
             ww.onmessage = function (e) {
+
+                //check if offline
+                if (e.data.offline == true) {
+                    alert('offline')
+                }
                 //matching films
                 if (e.data.filmScriptObjFormatted != null) {
                     //add div to page for movie script 

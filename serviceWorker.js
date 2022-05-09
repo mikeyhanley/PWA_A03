@@ -111,7 +111,9 @@ function processFilms(data) {
             messageObj = {
                 checkedFilms: checkedFilms,
                 filmScriptObjFormatted: null,
-                totalFilms: totalFilms
+                totalFilms: totalFilms,
+                offline: false
+
             }
 
 
