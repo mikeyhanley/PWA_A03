@@ -47,7 +47,7 @@ self.addEventListener('fetch', (e) => {
             catch {
                 console.log('catch')
                 return new Response(
-                    "{offline: true}",
+                    "{'offline': 'true'}",
                     { headers: { "Content-Type": "application/json" } }
                 );
 
