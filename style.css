@@ -156,7 +156,7 @@ body, input, textarea, button {
 .flickrImg{
     width: 80%;
 }
-#flickrConnect{
+.offline{
     padding: 2rem;
     font-size: 2.5rem;}
 .loader{

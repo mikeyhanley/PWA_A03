@@ -113,7 +113,7 @@
         console.log(jsonRes)
 
         if (jsonRes.offline == 'true') {
-            contentDiv.innerHTML = '<h2 id="flickrConnect">Sorry, Cant connect to flickr. Please try again later<h2>'
+            contentDiv.innerHTML = '<h2 class="offline">Sorry, Cant connect to flickr. Please try again later<h2>'
 
         }
         else {
@@ -211,11 +211,13 @@
     function deletePhotos() {
         var savedPicArrayJson = localStorage.getItem("PicArray");
         var formattedPicArray = []
-        for (pic of savedPicArrayJson) {
+        for (pic of JSON.parse(savedPicArrayJson)) {
+            console.log((pic))
+            formattedPicArray.push(pic.path.replace('https://farm66.staticflickr.com/', ''))
 
         }
         alert('del')
-
+        console.log(formattedPicArray)
     }
 
 </script>
