@@ -32,7 +32,11 @@ self.addEventListener('activate', e => {
 
 
 self.addEventListener('fetch', (e) => {
-    console.log(e)
+    console.log(e.request.url)
+    if (e.request.url.contains('myWorker.js')) {
+        console.log('contains movieOBj')
+
+    }
 
     e.respondWith((async () => {
         const r = await caches.match(e.request);
