@@ -59,7 +59,7 @@ self.addEventListener('fetch', (e) => {
 
 
     }
-    if (reqURL.includes('movieObj.js')) {
+    else if (reqURL.includes('movieObj.js')) {
         console.log('contains movieObj.js')
 
 

@@ -79,7 +79,7 @@
                 if (e.data.offline == true) {
                     alert('offline')
                 }
-                else {
+                else if (e.data.offline == false) {
                     //matching films
                     if (e.data.filmScriptObjFormatted != null) {
                         //add div to page for movie script 
