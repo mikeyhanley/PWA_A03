@@ -36,26 +36,26 @@ self.addEventListener('fetch', (e) => {
 
     if (reqURL.includes('myWorker.js')) {
         console.log('contains myWorker')
-        e.respondWith((async () => {
-
-            try {
-                const response = await fetch(e.request);
-                console.log(response)
-                return response;
-            }
-            catch {
-                console.log('catch')
-                return new Response(
-                    "handkeOffline({offline: true})",
-                    { headers: { "Content-Type": "text/javascript" } }
-                );
-
-            }
-
-        })())
-
-
-
+        /*  e.respondWith((async () => {
+  
+              try {
+                  const response = await fetch(e.request);
+                  console.log(response)
+                  return response;
+              }
+              catch {
+                  console.log('catch')
+                  return new Response(
+                      "handkeOffline({offline: true})",
+                      { headers: { "Content-Type": "text/javascript" } }
+                  );
+  
+              }
+  
+          })())
+  
+  
+  */
     }
     else {
 
@@ -95,8 +95,9 @@ function processFilms(data) {
                 offline: true
 
             }
+            postMessage(messageObj)
+
         }
-        postMessage(messageObj)
 
     }
     catch {
