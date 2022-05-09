@@ -209,6 +209,11 @@
 
     //delete flickr photos function
     function deletePhotos() {
+        var savedPicArrayJson = localStorage.getItem("PicArray");
+        var formattedPicArray = []
+        for (pic of savedPicArrayJson) {
+
+        }
         alert('del')
 
     }
@@ -236,7 +241,7 @@
                 </div>
                 <div id="searchContainer">
                     <div id="cache">
-                        <button onclick="deletePhotos">Delete Flickr Chache</button>
+                        <button onclick="deletePhotos()">Delete Flickr Chache</button>
                     </div>
                 </div>
             </div>
