@@ -33,7 +33,31 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', (e) => {
     var reqURL = e.request.url.toString()
     console.log(reqURL)
+    if (reqURL.includes('api.flickr')) {
 
+
+        e.respondWith((async () => {
+
+            try {
+                const response = await fetch(e.request);
+                console.log(response)
+                return response;
+            }
+            catch {
+                console.log('catch')
+                return new Response(
+                    "{offline: true}",
+                    { headers: { "Content-Type": "application/json" } }
+                );
+
+            }
+
+        })())
+
+
+
+
+    }
     if (reqURL.includes('myWorker.js')) {
         console.log('contains myWorker')
         /*  e.respondWith((async () => {
