@@ -113,21 +113,21 @@ onmessage = function (e) {
 }
 function processFilms(data) {
     console.log(data)
-    try {
-        if (data.offline == true) {
-            messageObj = {
-                checkedFilms: 0,
-                filmScriptObjFormatted: null,
-                totalFilms: 0,
-                offline: true
 
-            }
-            postMessage(messageObj)
+    if (data.offline == true) {
+        messageObj = {
+            checkedFilms: 0,
+            filmScriptObjFormatted: null,
+            totalFilms: 0,
+            offline: true
 
         }
+        postMessage(messageObj)
 
     }
-    catch {
+
+    else {
+
         var checkedFilms = 0
         var filmScriptArray = Object.keys(data).map(key => {
             return data[key];
