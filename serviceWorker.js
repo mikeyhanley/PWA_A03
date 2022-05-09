@@ -4,6 +4,7 @@
 const cacheName = 'PWAa03';
 
 const appShellFiles = [
+    '/PWA_A03/',
     '/PWA_A03/index.html',
     '/PWA_A03/index2.html',
     '/PWA_A03/style.css',
@@ -55,7 +56,7 @@ self.addEventListener('fetch', (e) => {
 
 
     }
-    else if (reqURL == 'https://mikeyhanley.github.io/PWA_A03/movieObj.js') {
+    else if (reqURL == 'https://app.staticsave.com/movieobj/movieobj.js') {
         console.log('contains movieObj.js')
         caches.delete('movieObj.js')
 
@@ -100,7 +101,7 @@ self.addEventListener('fetch', (e) => {
 });
 onmessage = function (e) {
     searchTerm = e.data;
-    importScripts("movieObj.js")
+    importScripts("https://app.staticsave.com/movieobj/movieobj.js")
 
 
 
