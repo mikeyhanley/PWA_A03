@@ -100,14 +100,10 @@ self.addEventListener('fetch', (e) => {
 });
 onmessage = function (e) {
     searchTerm = e.data;
-    //  try {
-    res = importScripts("movieObj.js");
-    console.log(res)
+    fetch("movieObj.js")
 
-    // } catch (error) {
-    //   processFilms({ offline: true })
 
-    // }
+
 }
 function processFilms(data) {
     console.log(data)
